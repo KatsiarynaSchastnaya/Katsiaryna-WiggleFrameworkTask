@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<testng-results failed="0" passed="5" skipped="0" total="5">
+    <suite duration-ms="199498" name="io.cucumber.core.plugin.TestNGFormatter">
+        <test duration-ms="199498" name="io.cucumber.core.plugin.TestNGFormatter">
+            <class name="Login Page Initial Screen Elements Visibility (Outline)">
+                <test-method duration-ms="25659" finished-at="2025-06-17T20:07:47.406280600Z" name="Verify visibility of key elements on the initial login screen" started-at="2025-06-17T20:07:21.738613600Z" status="PASS"/>
+                <test-method duration-ms="42794" finished-at="2025-06-17T20:08:30.238992200Z" name="Verify visibility of key elements on the initial login screen_2" started-at="2025-06-17T20:07:47.441635Z" status="PASS"/>
+                <test-method duration-ms="42799" finished-at="2025-06-17T20:09:13.054848900Z" name="Verify visibility of key elements on the initial login screen_3" started-at="2025-06-17T20:08:30.254639800Z" status="PASS"/>
+                <test-method duration-ms="42740" finished-at="2025-06-17T20:09:55.817923900Z" name="Verify visibility of key elements on the initial login screen_4" started-at="2025-06-17T20:09:13.070494200Z" status="PASS"/>
+            </class>
+            <class name="Login Page Title Verification">
+                <test-method duration-ms="42840" finished-at="2025-06-17T20:10:38.670794100Z" name="Verify the main title of the login page" started-at="2025-06-17T20:09:55.817923900Z" status="PASS"/>
+            </class>
+        </test>
+    </suite>
+</testng-results>

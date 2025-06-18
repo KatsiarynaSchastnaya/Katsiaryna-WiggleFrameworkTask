@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<testng-results failed="1" passed="0" skipped="0" total="1">
+    <suite duration-ms="71265" name="io.cucumber.core.plugin.TestNGFormatter">
+        <test duration-ms="71265" name="io.cucumber.core.plugin.TestNGFormatter">
+            <class name="Brand Filter Interaction and Product Count Consistency on Run Page">
+                <test-method duration-ms="69022" finished-at="2025-06-17T20:56:58.178226Z" name="Verify product count for New Balance remains consistent after applying Adidas filter with specific price range" started-at="2025-06-17T20:55:49.138656300Z" status="FAIL">
+                    <exception class="java.lang.AssertionError">
+                        <message><![CDATA[Given The user is on the Wiggle main page...................................passed
+When The user navigates to the "Run" category page..........................passed
+When The user applies a price filter for range "£250 to £500"...............passed
+And The user observes the initial product count for brand "New Balance".....passed
+When The user selects the brand "adidas"....................................passed
+Then The product count for brand "New Balance" should remain visible and be the same as the initial count.failed
+]]></message>
+                        <full-stacktrace><![CDATA[java.lang.AssertionError: Product count for brand 'New Balance' has changed or is incorrect. Expected: '4', Actual: '0_EMPTY_FILTER_VALUE'. This indicates a deviation from expected behavior (defect might be present or logic changed). expected [4] but found [0_EMPTY_FILTER_VALUE]
+	at org.testng.Assert.fail(Assert.java:111)
+	at org.testng.Assert.failNotEquals(Assert.java:1578)
+	at org.testng.Assert.assertEqualsImpl(Assert.java:150)
+	at org.testng.Assert.assertEquals(Assert.java:132)
+	at org.testng.Assert.assertEquals(Assert.java:656)
+	at com.stv.bdd.steps.ProductFilterSteps.productCountForBrandShouldRemainVisibleAndBeSameAsInitial(ProductFilterSteps.java:99)
+	at ✽.The product count for brand "New Balance" should remain visible and be the same as the initial count(file:///C:/Users/User/Downloads/autoframeWork-template-Java_2025-Katsiaryna-Schastnaya/paraBankForStudents/src/test/resources/com/stv/bdd/features/BrandFilterDefect.feature:18)
+]]></full-stacktrace>
+                    </exception>
+                </test-method>
+            </class>
+        </test>
+    </suite>
+</testng-results>

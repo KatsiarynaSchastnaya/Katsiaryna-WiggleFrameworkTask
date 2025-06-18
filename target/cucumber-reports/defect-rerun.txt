@@ -1,0 +1,1 @@
+file:paraBankForStudents/src/test/resources/com/stv/bdd/features/BrandFilterDefect.feature:14
