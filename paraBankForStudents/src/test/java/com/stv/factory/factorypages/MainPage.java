@@ -12,6 +12,7 @@ import java.time.Duration;
 
 public class MainPage extends BasePage {
 
+
     @FindBy(id = "loginMenu")
     private WebElement signInEntryPointElement;
 
@@ -27,10 +28,17 @@ public class MainPage extends BasePage {
     @FindBy(id = "lnkTopLevelMenu_5161006")
     private WebElement runCategoryLink;
 
+    @FindBy(id = "aBagLink")
+    private WebElement basketIconLink;
+
+
+
     public MainPage(WebDriver driver) {
         super(driver);
         System.out.println("MainPage instance created. Current URL: " + driver.getCurrentUrl());
     }
+
+
 
     public MainPage open() {
         driver.get(WigglePageURLs.START_URL);
@@ -45,10 +53,8 @@ public class MainPage extends BasePage {
             WebElement acceptButton = shortWait.until(ExpectedConditions.elementToBeClickable(allowAllCookiesButton));
             System.out.println("MainPage: Cookie banner found. Clicking 'ALLOW ALL'.");
             acceptButton.click();
-        } catch (TimeoutException | NoSuchElementException e) {
-
         } catch (Exception e) {
-            System.err.println("MainPage: Error handling cookie banner: " + e.getMessage());
+
         }
     }
 
@@ -63,6 +69,43 @@ public class MainPage extends BasePage {
         }
         return new LoginPage(driver);
     }
+
+    public CartPage clickBasketIcon() {
+        System.out.println("MainPage: Attempting to click basket icon...");
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(basketIconLink)).click();
+            System.out.println("MainPage: Clicked basket icon. Navigating to Cart Page.");
+            return new CartPage(driver);
+        } catch (Exception e) {
+            Assert.fail("Basket icon link was not found or not clickable. Error: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public ProductListingPage navigateToCategory(String categoryName) {
+        System.out.println("MainPage: Attempting to navigate to category: " + categoryName);
+        WebElement categoryLinkElement = null;
+
+        if ("Run".equalsIgnoreCase(categoryName)) {
+            categoryLinkElement = this.runCategoryLink;
+        } else {
+
+            Assert.fail("Navigation to category '" + categoryName + "' is not implemented in MainPage.java.");
+        }
+
+        try {
+            Assert.assertNotNull(categoryLinkElement, "Category link element is null for " + categoryName + ". Check @FindBy locator.");
+            System.out.println("MainPage: Waiting for category link '" + categoryName + "' to be clickable.");
+            wait.until(ExpectedConditions.elementToBeClickable(categoryLinkElement)).click();
+            System.out.println("MainPage: Clicked on '" + categoryName + "' category link.");
+            return new ProductListingPage(driver);
+        } catch (Exception e) {
+            Assert.fail("Failed to navigate to category '" + categoryName + "'. Details: " + e.getMessage());
+        }
+        return null;
+    }
+
+
 
     public boolean isUserLoggedIn() {
         System.out.println("MainPage: Checking if user is logged in...");
@@ -81,63 +124,17 @@ public class MainPage extends BasePage {
             wait.until(ExpectedConditions.visibilityOf(myAccountLinkText));
             System.out.println("MainPage: 'My Account' link text IS VISIBLE after hover. User is considered logged in.");
             return myAccountLinkText.isDisplayed();
-
-        } catch (TimeoutException e) {
-            System.out.println("MainPage: TimeoutException while checking login state.");
-            System.out.println("TimeoutException details: " + e.getMessage());
-            return false;
-        } catch (NoSuchElementException nse) {
-            System.out.println("MainPage: NoSuchElementException while checking login state.");
-            System.out.println("NoSuchElementException details: " + nse.getMessage());
-            return false;
-        }
-        catch (Exception generalException) {
-            System.err.println("MainPage: An unexpected error occurred while checking login state: " + generalException.getMessage());
-            generalException.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Could not confirm logged-in state. Details: " + e.getMessage());
             return false;
         }
     }
 
-
-    public ProductListingPage navigateToCategory(String categoryName) {
-        System.out.println("MainPage: Attempting to navigate to category: " + categoryName);
-        WebElement categoryLinkElement = null;
-
-        if ("Run".equalsIgnoreCase(categoryName)) {
-            categoryLinkElement = this.runCategoryLink;
-        }
-
-        else {
-            String genericCategoryXPath = String.format("//ul[@class='primary-nav__list']//a[contains(@href,'/%s') and (normalize-space()='%s' or .//span[normalize-space()='%s'])]",
-                    categoryName.toLowerCase(), categoryName, categoryName);
-            try {
-                System.out.println("MainPage: Trying generic XPath for category '" + categoryName + "': " + genericCategoryXPath);
-                categoryLinkElement = driver.findElement(By.xpath(genericCategoryXPath));
-            } catch (NoSuchElementException e) {
-                System.err.println("MainPage: Category '" + categoryName + "' not found using predefined locators or generic XPath.");
-                Assert.fail("Navigation to category '" + categoryName + "' is not implemented or category link not found.");
-            }
-        }
-
+    public boolean isSignInIconDisplayed() {
         try {
-            Assert.assertNotNull(categoryLinkElement, "Category link element for '" + categoryName + "' is null. Check locator logic.");
-            System.out.println("MainPage: Waiting for category link '" + categoryName + "' to be clickable.");
-
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", categoryLinkElement);
-            wait.until(ExpectedConditions.elementToBeClickable(categoryLinkElement)).click();
-            System.out.println("MainPage: Clicked on '" + categoryName + "' category link.");
-
-            return new ProductListingPage(driver);
-        } catch (TimeoutException e) {
-            String errorMessage = "Category link for '" + categoryName + "' not found or not clickable on Main Page within timeout.";
-            System.err.println(errorMessage);
-            Assert.fail(errorMessage + " Details: " + e.getMessage());
-        } catch (NullPointerException e) {
-            String errorMessage = "NullPointerException while trying to click category link for: " + categoryName + ". CategoryLinkElement might be null.";
-            System.err.println(errorMessage);
-            Assert.fail(errorMessage);
+            return wait.until(ExpectedConditions.visibilityOf(signInEntryPointElement)).isDisplayed();
+        } catch (Exception e) {
+            return false;
         }
-        return null;
     }
-
 }
